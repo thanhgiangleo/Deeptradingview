@@ -1,0 +1,360 @@
+/* header */
+header .logo img {
+    width: auto;
+    height: auto;
+}
+
+header .slogal {
+    margin-top: 10px;
+}
+
+header .slogal img {
+	height: auto;
+	width: auto;
+	max-height: 106px;
+}
+
+/* slider */
+.carousel-inner .item img{
+	align-content: center;
+	align-items: center;
+	vertical-align: middle;
+	position: block !important;
+	margin: auto !important;
+	align-self: center;
+}
+.carousel-indicators .active {
+	background-color: rgb(179, 117, 16) !important;
+}
+.glyphicon-chevron-right {
+	color: rgb(179, 117, 16) !important;
+}
+.glyphicon-chevron-left {
+	color: rgb(179, 117, 16) !important;
+}
+
+/* sidebar-spacing */
+.sidebar-spacing {
+	height: 49px;
+}
+
+
+/*Slogan*/
+.slogan {
+  background: #ecb10e;
+}
+
+@keyframes flutter-left {
+  0%   { transform: rotate3d(0, 1, 0, 20deg); }
+  50% { transform: rotate3d(0, 1, 0, 70deg); }
+  100% { transform: rotate3d(0, 1, 0, 20deg); }
+}
+
+@keyframes flutter-right {
+  0%   { transform: rotate3d(0, 1, 0, -20deg); }
+  50% { transform: rotate3d(0, 1, 0, -70deg); }
+  100% { transform: rotate3d(0, 1, 0, -20deg); }
+}
+
+.butterfly {
+  width: 100px;
+  height: 100px;
+  position: absolute;
+  top: 0; 
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform-style: preserve-3d;
+  transform: rotate3d(1, 0.5, 0, 110deg);
+}
+
+.left-wing, .right-wing {
+  width: 24px;
+  height: 42px;
+  position: absolute;
+  top: 10px;  
+}
+
+.left-wing {
+  left: 10px;
+  top: 10px;
+  transform-origin: 24px 50%;
+  transform: rotate3d(0, 1, 0, 20deg);
+  animation: flutter-left 0.3s infinite;
+}
+
+.right-wing {
+  left: 34px;
+  transform: rotate3d(0, 1, 0, -20deg);
+  transform-origin: 0px 50%;
+  animation: flutter-right 0.3s infinite;
+}
+
+.left-wing .top {
+  right: 0;
+}
+
+.top, .bottom {
+  background: rgb(179, 117, 16);
+  opacity: 0.7;
+  position: absolute;
+}
+
+.top {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
+.bottom {
+  top: 18px;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+}
+
+
+/*News*/
+.container-wrapper {
+    max-width:1000px;
+    position:relative;
+    margin:auto;
+    clear:both;
+    border-radius:4px
+}
+
+.newinfo-bar a:focus,
+.newinfo-link a:focus, {
+    border: 1px solid #0B647E!important;
+    box-shadow: 0 0 10px #719ECE!important
+}
+.newinfo-bar {
+    margin-top: 10px;
+    clear:both;
+    height:52px;
+    overflow:hidden;
+    position:relative
+}
+.newinfo-title {
+    padding-top:5px
+}
+.newinfo-link {
+    float:right;
+    position:absolute;
+    right:0;
+    top:10px
+}
+.newinfo-link a {
+    color:#333;
+    font-family:"OpenSans",
+    Arial;
+    font-size:14px;
+    text-decoration:none;
+    position:relative;
+    padding-left:10px
+}
+.newinfo-link a:before {
+    content:">>";
+    color:#333;
+    top:0;
+    font-size:13px;
+    font-weight:400;
+    font-family:"DiavloBook-Regular",
+    Arial;
+    text-decoration:none;
+    position:absolute;
+    left:-1px;
+    letter-spacing:-2px;
+    line-height:21px
+}
+.newinfo-link a:hover {
+    text-decoration:underline
+}
+.newinfo-bar .newinfo-top {
+    float:left
+}
+.newinfo-title h3 {
+    margin:0;
+    /*font-weight: bold;*/
+    font-size:16px;
+    line-height:25px;
+    color:#ecb10e;
+    float:left;
+    font-family:"Diavlo_LIGHT",
+    Arial
+}
+.newinfo-title h3 i {
+    background-color:#ecb10e;
+    color:#F2F2F2;
+    padding:7px;
+    font-size:12px;
+    border-radius:20px;
+    position:relative;
+    margin-right:3px
+}
+.newinfo-title ul li {
+    width:700px;
+}
+.newinfo-title ul li span {
+    color:#006886;
+    font-family:"OpenSans",
+    Arial;
+    font-size:14px;
+    line-height:20px
+}
+.newinfo-title ul li a {
+    color:#333;
+    font-family:"OpenSans",
+    Arial;
+    font-size:14px;
+    line-height:20px;
+    padding-top: 5px;
+}
+.newinfo-title .bx-wrapper {
+    float:left
+}
+.newinfo-title .bx-wrapper .bx-viewport {
+    background-color:transparent;
+    border:none;
+    box-shadow:none;
+    left:5px;
+    top:4px
+}
+
+
+.concac {
+    background-image: url(./images/pattern_vang.svg);
+    margin-top: 10px;
+    background-repeat: repeat;
+    background-color: #F8F3E7;
+    min-height: 75px;
+    padding: 10px 0
+}
+
+#logo_skytrax_wap {
+    background-image: url(./images/pattern_vang.svg);
+    margin-top: 10px;
+    background-repeat: repeat;
+    background-size: 250px;
+    background-color: #F8F3E7;
+    min-height: 75px;
+    padding: 10px 0
+}
+#logo_skytrax_wap .container {
+    background-color: transparent;
+    max-width: 1000px;
+    width: 100%;
+    margin: auto;
+    position: relative;
+    padding: 0
+}
+.logo-skytrax-img {
+    display: inline-block;
+    min-width: 120px;
+    vertical-align: middle;
+    width: 120px;
+    text-align: center
+}
+.logo-skytrax-img img {
+    display: block;
+    margin: auto;
+    width: 85px;
+    position: absolute;
+    left: 0;
+    bottom: 5px
+}
+.logo-skytrax-txt h4 {
+    color: #0b6e8b;
+    font-size: 15px;
+    margin-top: 0;
+    margin-bottom: 5px
+}
+.logo-skytrax-txt {
+    display: inline-block;
+    vertical-align: middle;
+    width: 85%;
+    font-size: 13px;
+    color: #333
+}
+.logo-skytrax-txt p,
+.logo-skytrax-txt>p,
+#logo_skytrax_wap p {
+    margin-bottom: 0;
+    color: #333
+}
+
+
+
+
+/*ARTISTS img*/
+.tab-content:hover {
+    border-radius: 20px;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+    -moz-transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    transform: scale(1.05);
+}
+
+.nav-tabs>li>a:hover {
+    border-color: transparent;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    background-color: transparent;
+}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: transparent;
+    cursor: default;
+    background-color: transparent;
+    border: none;
+    border-bottom-color: transparent;
+}
+.nav-tabs>li.active {
+    width: 112px;
+    height: 102px;
+}
+
+@media only screen and (max-width: 1024px) {
+  .nav-tabs>li.active {
+    width: 87px;
+    height: 77px;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .slogan-1 {
+    font-size: 30px;
+    margin-top: 30px;
+  }
+
+  .logo-1 {
+    margin-top: 10px;
+    height: 90px !important;
+  }
+
+  .nav-tabs>li.active {
+    width: 72px;
+    height: 62px;
+  }
+  #cfacebook {
+    right: 10px !important;
+  }  
+}
+
+@media only screen and (max-width: 425px) {
+  .nav-tabs>li.active {
+    width: 54px;
+    height: 44px;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .nav-tabs>li.active {
+    width: 48px;
+    height: 38px;
+  }
+}
+

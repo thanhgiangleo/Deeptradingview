@@ -1,0 +1,161 @@
+.wrapperda {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.wrapperda ol {
+  padding: 0;
+}
+.wrapperda ol li {
+  font-size: 13px;
+  list-style: decimal;
+  line-height: 14px;
+}
+.buttondk {
+  margin: 35px;
+}
+.buttondk a {
+  padding: 10px;
+  border: 1px solid #ECBD19;
+  border-radius: 5px;
+  color: #ECBD19;
+  font-weight: bold;
+}
+section.section-1 {
+  padding: 35px 0;
+}
+section.section-1 ul li {
+  color: #444;
+  background: url('images/list-post.png') left no-repeat;
+  background-position-y: 11px;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 15px;
+  padding-left: 23px;
+}
+section.section-1 .cda p {
+  border-radius: 300px;
+  border: 1px solid #a18522;
+  padding: 28px 10px;
+  text-align: center;
+  font-size: 12px;
+  width: 150px;
+  height: 150px;
+  color: #444;
+  margin: 0px auto;
+  margin-bottom: 5px;
+}
+section.quytrinh h2 {
+  margin: 0;
+  margin-bottom: 25px;
+  color: #001b70;
+  text-align: center;
+}
+section.quytrinh h2 span {
+  font-weight: bold;
+}
+section.quytrinh .thumb {
+  border: 1px solid #dedcdc;
+  box-shadow: 2px 2px 2px #dedcdc;
+  padding: 10px;
+  overflow: hidden;
+}
+section.quytrinh .thumb img {
+  width: 100%;
+  height: auto;
+}
+section.quytrinh p {
+  margin-bottom: 15px;
+}
+section.section-2 {
+  padding: 20px;
+}
+section.section-2 .boxda {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.56);
+}
+section.section-2 .boxda h2,
+section.section-2 .boxda h1 {
+  color: #001b70;
+  font-size: 25px;
+}
+section.ketqua h2 {
+  color: #ECBD19;
+}
+section.chiphi {
+  text-align: center;
+}
+section.chiphi h2 {
+  background: #ECBD19;
+  padding: 10px;
+  color: #fff;
+}
+section.chiphi p {
+  font-size: 19px;
+}
+section.chiphi span {
+  font-size: 30px;
+}
+section#dangky form input[type="text"],
+section#dangky form input[type="email"],
+section#dangky form input[type="tel"] {
+  border: 1px solid #ECBD19;
+  margin-bottom: 5px;
+  padding: 5px;
+  width: 100%;
+}
+section#dangky form textarea {
+  border: 1px solid #ECBD19;
+  height: 92px;
+  width: 100%;
+}
+section#dangky form input[type="submit"] {
+  text-align: center;
+  background: #ECBD19;
+  color: #fff;
+  border: none;
+  padding: 5px 20px;
+  text-transform: uppercase;
+}
+.famous a.thumbnail {
+  margin-bottom: 5px;
+}
+.famous p {
+  padding: 0;
+}
+.famous p a {
+  color: #444;
+  font-size: 14px;
+  font-weight: bold;
+}
+.ba ul {
+  list-style: none;
+  padding: 0;
+}
+.ba ul li {
+  width: 50%;
+  float: left;
+  background: url('images/list-post.png') left no-repeat;
+  background-position-y: 9px;
+  font-size: 16px;
+  font-weight: 300;
+  margin-bottom: 13px;
+  padding-left: 23px;
+}
+h2.sec-title {
+  color: #ECBD19;
+  padding: 5px;
+  border-left: 5px solid #ECBD19;
+  border-bottom: 1px dotted #ECBD19;
+  text-transform: uppercase;
+  font-size: 23px;
+}
+@media screen and (max-width: 540px) {
+  section.section-1 {
+    background: none !important;
+  }
+  section.section-2 {
+    padding: 0 !important;
+  }
+  .ketqua {
+    background: none !important;
+  }
+}
