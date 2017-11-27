@@ -15,3 +15,4 @@
 //    return view('welcome');
 //});
 Route::get('/', 'HomeController@index');
+Route::get('/social/facebook', 'HomeController@facebook');

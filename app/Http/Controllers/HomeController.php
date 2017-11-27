@@ -3,16 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function __construct()
+    public function __construct(Socialite $socialite)
     {
+        $this->socialite = $socialite;
 //        $this->middleware('guest')->except('logout');
     }
 
     public function index()
     {
-        return "WDqwq";
+        return view('login');
+    }
+
+    public function redirectToProvider()
+    {
+
+    }
+
+    /**
+     * Obtain the user information from GitHub.
+     *
+     * @return Response
+     */
+    public function facebook(Request $request)
+    {
+        if(!$request->has('code'))
+        {
+            return Socialite::driver('facebook')->redirect();
+        }
+
+        $user = Socialite::driver('facebook')->stateless()->user();
+        var_dump($user); die();
     }
 }
