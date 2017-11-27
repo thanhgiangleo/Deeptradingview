@@ -15,4 +15,7 @@
 //    return view('welcome');
 //});
 Route::get('/', 'HomeController@index');
+Route::get('/login', 'HomeController@login');
+Route::get('/register', 'HomeController@register');
+Route::get('/payment', 'HomeController@payment');
 Route::get('/social/facebook', 'HomeController@facebook');

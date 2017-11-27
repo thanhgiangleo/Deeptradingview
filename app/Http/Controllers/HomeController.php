@@ -39,4 +39,19 @@ class HomeController extends Controller
         $user = Socialite::driver('facebook')->stateless()->user();
         var_dump($user); die();
     }
+
+    public function login()
+    {
+        return view('loginv2');
+    }
+
+    public function register()
+    {
+        return view('register');
+    }
+
+    public function payment()
+    {
+        return view('payment');
+    }
 }
