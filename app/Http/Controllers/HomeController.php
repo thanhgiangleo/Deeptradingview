@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 
+use App\User;
 class HomeController extends Controller
 {
     public function __construct(Socialite $socialite)
@@ -31,23 +32,41 @@ class HomeController extends Controller
      */
     public function facebook(Request $request)
     {
-        if(!$request->has('code'))
-        {
+        if (!$request->has('code')) {
             return Socialite::driver('facebook')->redirect();
         }
 
         $user = Socialite::driver('facebook')->stateless()->user();
-        var_dump($user); die();
+        var_dump($user);
+        die();
     }
 
     public function login()
     {
+        $posts = User::all();
+        var_dump($posts); die();
         return view('loginv2');
     }
 
-    public function register()
+    public function loginAction(Request $request)
     {
-        return view('register');
+        if ($request->input('cfpassword') !== null)
+        {
+            $this->registerAction($request);
+        }
+        else
+        {
+            $email = $request->input('email');
+            $password = $request->input('password');
+        }
+    }
+
+    public function registerAction(Request $request)
+    {
+        $email = $request->input('email');
+        $password = $request->input('password');
+
+
     }
 
     public function payment()

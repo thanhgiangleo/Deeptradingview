@@ -25,6 +25,6 @@
 </body>
 <footer>
     <script src="/js/styles.js"></script>
-    <script src="/js/payment.js"></script>
+    <script src="/js/login.js"></script>
 </footer>
 </html>

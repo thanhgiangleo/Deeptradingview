@@ -16,7 +16,8 @@
                     <!-- Wizard container -->
                     <div class="wizard-container">
                         <div class="card wizard-card" data-color="red" id="wizard">
-                            <form action="" method="">
+                            <form  method="POST" action="loginAction">
+                                {{ csrf_field() }}
                                 <div class="wizard-header">
                                     <h3 class="wizard-title">
                                         DEEP TRADING VIEW
@@ -50,7 +51,7 @@
 													</span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Your Email</label>
-                                                        <input name="name" type="text" class="form-control">
+                                                        <input name="email" type="text" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -60,7 +61,7 @@
 													</span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Your Password</label>
-                                                        <input name="name2" type="password" class="form-control">
+                                                        <input name="password" type="password" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -86,7 +87,7 @@
 													</span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Your Email</label>
-                                                        <input name="name" type="text" class="form-control">
+                                                        <input name="email" type="text" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -96,7 +97,7 @@
 													</span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Your Password</label>
-                                                        <input name="name2" type="password" class="form-control">
+                                                        <input name="password" type="password" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -106,7 +107,7 @@
 													</span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Confirm Password</label>
-                                                        <input name="name2" type="password" class="form-control">
+                                                        <input name="cfpassword" type="password" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -116,9 +117,9 @@
                                 </div>
                                 <div class="wizard-footer">
                                     <div class="pull-right">
-                                        <input type='button' class='btn btn-next btn-fill btn-danger btn-wd' name='next'
+                                        <input type='submit' class='btn btn-login btn-fill btn-danger btn-wd' name='next'
                                                value='Login'/>
-                                        <input type='button' class='btn btn-finish btn-fill btn-danger btn-wd'
+                                        <input type='submit' class='btn btn-regis btn-fill btn-danger btn-wd'
                                                name='finish' value='Register'/>
                                     </div>
                                     <div class="clearfix"></div>
