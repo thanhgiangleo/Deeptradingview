@@ -419,13 +419,13 @@ $(document).ready(function(){
                 $($wizard).find('.btn-finish').show();
 
                 $($wizard).find('.btn-login').hide();
-                $($wizard).find('.btn-regis').show();
+                $($wizard).find('.btn-register').show();
             } else {
                 $($wizard).find('.btn-next').show();
                 $($wizard).find('.btn-finish').hide();
 
                 $($wizard).find('.btn-login').show();
-                $($wizard).find('.btn-regis').hide();
+                $($wizard).find('.btn-register').hide();
             }
 
             button_text = navigation.find('li:nth-child(' + $current + ') a').html();

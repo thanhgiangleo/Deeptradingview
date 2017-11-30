@@ -17,6 +17,6 @@
 Route::get('/', 'HomeController@index');
 Route::get('/login', 'HomeController@login');
 Route::post('/loginAction', 'HomeController@loginAction');
-Route::get('/register', 'HomeController@register');
+Route::post('/register', 'HomeController@register');
 Route::get('/payment', 'HomeController@payment');
 Route::get('/social/facebook', 'HomeController@facebook');
