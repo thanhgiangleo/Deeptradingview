@@ -11,13 +11,17 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
+// Homepage routes
 Route::get('/', 'HomeController@index');
+
+// Login / Register
 Route::get('/login', 'HomeController@login');
 Route::get('/isExistEmail/{email}', 'HomeController@isExistEmail');
 Route::post('/loginAction/{email}/{password}', 'HomeController@loginAction');
 Route::post('/registerAction/{email}/{password}', 'HomeController@registerAction');
 Route::get('/payment', 'HomeController@payment');
+// Facebook auth
 Route::get('/social/facebook', 'HomeController@facebook');
+
+// Admin routes
+Route::get('/admin', 'AdminController@index');
