@@ -6,19 +6,37 @@ use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 
-use App\User;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 class HomeController extends Controller
 {
+//    private $db;
     public function __construct(Socialite $socialite)
     {
         $this->socialite = $socialite;
-//        $this->middleware('guest')->except('logout');
+        parent::__construct();
     }
 
     public function index()
     {
-        return view('login');
+        $users = DB::select('SELECT * from ' . $this->User_Type);
+        var_dump($users); die();
+//        if (!$this->db) {
+//            echo "ERROR : CANNOT OPEN DB\n";
+//        }
+//        else {
+//            $result = pg_query($this->db, "SELECT * from users.user_type");
+//            if (!$result) {
+//                echo "An error occurred.\n";
+//                exit;
+//            }
+//
+//            while ($row = pg_fetch_row($result)) {
+//                echo "Type: $row[0]  Name: $row[1]";
+//                echo "<br />\n";
+//            }
+//        }
+//        return view('login');
     }
 
     public function redirectToProvider()
