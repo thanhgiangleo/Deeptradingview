@@ -44,7 +44,7 @@ var loginJS = {
                     method: 'POST',
                     url: '/loginAction/' + _email + '/' + _password,
                     success: function (isLogin) {
-                        if(isLogin === 1)
+                        if(isLogin === "1")
                             alert("dang nhap thanh cong");
                         else
                             alert("dang nhap that bai");
