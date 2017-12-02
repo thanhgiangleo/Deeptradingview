@@ -1,4 +1,4 @@
-<html>
+<!DOCTYPE html>
 <head>
     <title>App Name - @yield('title')</title>
     <meta charset="UTF-8">
@@ -25,6 +25,7 @@
 </body>
 <footer>
     <script src="/js/styles.js"></script>
+    <script src="/js/loginBase.js"></script>
     <script src="/js/login.js"></script>
 </footer>
 </html>

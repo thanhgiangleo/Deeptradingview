@@ -16,7 +16,8 @@
 //});
 Route::get('/', 'HomeController@index');
 Route::get('/login', 'HomeController@login');
-Route::post('/loginAction', 'HomeController@loginAction');
-Route::post('/register', 'HomeController@register');
+Route::get('/isExistEmail/{email}', 'HomeController@isExistEmail');
+Route::post('/loginAction/{email}/{password}', 'HomeController@loginAction');
+Route::post('/registerAction/{email}/{password}', 'HomeController@registerAction');
 Route::get('/payment', 'HomeController@payment');
 Route::get('/social/facebook', 'HomeController@facebook');

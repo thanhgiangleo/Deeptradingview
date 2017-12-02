@@ -61,30 +61,23 @@ class HomeController extends Controller
 
     public function loginAction(Request $request)
     {
-        if ($request->input('cfpasswordRegister') !== null)
-        {
-            $this->registerAction($request);
-            echo "dang ki thanh cong";
-        }
-        else
-        {
-            $email = $request->input('emailLogin');
-            $password = $request->input('passwordLogin');
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-            $user = User::where([
+        $user = User::where([
             ['email', '=', $email],
             ['password', '=', md5($password)],])->first();
 
-            if(isset($user))
-                echo "dang nhap thanh cong";
-        }
+        return isset($user) ? true : false;
     }
 
     public function registerAction(Request $request)
     {
-        $email = $request->input('emailRegister');
-        $password = $request->input('passwordRegister');
-        $this->insertUser($email, $password);
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $this->insertUser($email, md5($password));
+
+        return 1;
     }
 
     public function payment()
@@ -95,7 +88,7 @@ class HomeController extends Controller
     public function isExistEmail($email)
     {
         $user = $this->getUserByEmail($email);
-        return isset($user) ? true : false;
+        return isset($user) ? 1 : 0;
     }
 
     function get_client_ip() {

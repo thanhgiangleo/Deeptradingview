@@ -15,8 +15,8 @@
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="wizard-container">
                         <div class="card wizard-card" data-color="red" id="wizard">
-                            <form  method="POST" action="loginAction">
-                                {{ csrf_field() }}
+                            <form  >
+                                {!! csrf_field() !!}
                                 <div class="wizard-header">
                                     <h3 class="wizard-title">
                                         Book a Room
@@ -48,7 +48,7 @@
 													</span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Your Email</label>
-                                                        <input name="emailLogin" type="text" class="form-control">
+                                                        <input id="emailLogin" type="text" class="form-control">
                                                     </div>
                                                 </div>
 
@@ -58,7 +58,7 @@
                                                     </span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Your Password</label>
-                                                        <input name="passwordLogin" type="password" class="form-control">
+                                                        <input id="passwordLogin" type="password" class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -83,7 +83,7 @@
 													</span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Your Email</label>
-                                                    <input name="emailRegister" type="text" class="form-control">
+                                                    <input id="emailRegister" type="text" class="form-control">
                                                 </div>
                                             </div>
 
@@ -93,7 +93,7 @@
                                                     </span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Your Password</label>
-                                                    <input name="passwordRegister" type="password" class="form-control">
+                                                    <input id="passwordRegister" type="password" class="form-control">
                                                 </div>
                                             </div>
 
@@ -103,7 +103,7 @@
                                                     </span>
                                                 <div class="form-group label-floating">
                                                     <label class="control-label">Confirm Password</label>
-                                                    <input name="cfpasswordRegister" type="password" class="form-control">
+                                                    <input id="cfpasswordRegister" type="password" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -112,11 +112,10 @@
                                     </div>
                                     <div class="wizard-footer">
                                         <div class="pull-right">
-                                            <input type='submit' class='btn btn-login btn-fill btn-danger btn-wd'
-                                                   name='next'
+                                            <input type='button' class='btn btn-login btn-fill btn-danger btn-wd'
                                                    value='Login'/>
-                                            <input type='submit' class='btn btn-register btn-fill btn-danger btn-wd'
-                                                   name='finish' value='Register'/>
+                                            <input type='button' class='btn btn-register btn-fill btn-danger btn-wd'
+                                                   value='Register'/>
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
