@@ -19,3 +19,4 @@ class Controller extends BaseController
         $this->User_Type = "users.user_type";
     }
 }
+

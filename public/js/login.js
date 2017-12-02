@@ -69,7 +69,7 @@ var loginJS = {
                                 method: 'POST',
                                 url: '/registerAction/' + _email + '/' + _password,
                                 success: function (data) {
-                                    alert("dang ki thanh cong");
+                                    window.location.reload();
                                 }
                             })
                         }

@@ -7,6 +7,7 @@ use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Carbon\Carbon;
 class HomeController extends Controller
 {
@@ -19,8 +20,11 @@ class HomeController extends Controller
 
     public function index()
     {
-        $users = DB::select('SELECT * from ' . $this->User_Type);
-        var_dump($users); die();
+
+        $user = $this->insertUser("giang dieng", "sdsad");
+
+        var_dump("Dw"); die();
+        var_dump($user); die();
 //        if (!$this->db) {
 //            echo "ERROR : CANNOT OPEN DB\n";
 //        }
@@ -77,25 +81,20 @@ class HomeController extends Controller
         return view('login');
     }
 
-    public function loginAction(Request $request)
+    public function loginAction($email, $password)
     {
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        $user = User::where([
+        $user = DB::table($this->Users)
+            ->where([
             ['email', '=', $email],
             ['password', '=', md5($password)],])->first();
 
-        return isset($user) ? true : false;
+        return isset($user) ? 1 : 0;
     }
 
-    public function registerAction(Request $request)
+    public function registerAction($email, $password)
     {
-        $email = $request->input('email');
-        $password = $request->input('password');
         $this->insertUser($email, md5($password));
-
-        return 1;
+        return $this->loginAction($email, $password);
     }
 
     public function payment()
@@ -130,20 +129,23 @@ class HomeController extends Controller
 
     function insertUser($email, $password)
     {
-        $user = new User();
-
-        $user->email = $email;
-        $user->password = $password;
-        $user->login_ip = $this->get_client_ip();
-        $user->created_at = Carbon::now();
-        $user->updated_at = Carbon::now();
-        $user->expired_date = Carbon::now()->addDays(7);
-
-        $user->save();
+        $login_ip = $this->get_client_ip();
+        $created_at = Carbon::now();
+        $expired_at = Carbon::now()->addDays(7);
+        DB::table($this->Users)->insert(
+            [
+                'email' => $email,
+                'password' => $password,
+                'login_ip' => $login_ip,
+                'created_at' => $created_at,
+                'expired_at' => $expired_at
+            ]
+        );
     }
 
     function getUserByEmail($email)
     {
-        return User::where('email', '=', $email)->first();
+        return DB::table($this->Users)
+            ->where('email', '=', $email)->first();
     }
 }

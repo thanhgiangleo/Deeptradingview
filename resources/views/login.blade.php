@@ -15,7 +15,7 @@
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="wizard-container">
                         <div class="card wizard-card" data-color="red" id="wizard">
-                            <form  >
+                            <form >
                                 {!! csrf_field() !!}
                                 <div class="wizard-header">
                                     <h3 class="wizard-title">
@@ -64,52 +64,52 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="tab-pane" id="register">
-                                        <div class="col-sm-12">
-                                            <h4 class="info-text"> Let's start with the basic details.</h4>
-                                        </div>
-
-                                        <div class="col-sm-offset-3 col-sm-6">
-                                            <a href="/social/facebook" class="btn btn-block btn-social btn-twitter"
-                                               style="background-color: #478">
-                                                <span class="fa fa-facebook"></span> Register with Facebook
-                                            </a>
-                                        </div>
-
-                                        <div class="col-sm-offset-3 col-sm-6">
-                                            <div class="input-group">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h4 class="info-text"> Let's start with the basic details.</h4>
+                                            </div>
+                                            <div class="col-sm-offset-3 col-sm-6">
+                                                <a href="/social/facebook" class="btn btn-block btn-social btn-twitter"
+                                                   style="background-color: #478">
+                                                    <span class="fa fa-facebook"></span> Register with Facebook
+                                                </a>
+                                            </div>
+                                            <div class="col-sm-offset-3 col-sm-6">
+                                                <div class="input-group">
 													<span class="input-group-addon">
 														<i class="material-icons">email</i>
 													</span>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Your Email</label>
-                                                    <input id="emailRegister" type="text" class="form-control">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Your Email</label>
+                                                        <input id="emailRegister" type="text" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="input-group">
+                                                <div class="input-group">
                                                     <span class="input-group-addon">
                                                         <i class="material-icons">lock_outline</i>
                                                     </span>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Your Password</label>
-                                                    <input id="passwordRegister" type="password" class="form-control">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Your Password</label>
+                                                        <input id="passwordRegister" type="password" class="form-control">
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="input-group">
+                                                <div class="input-group">
                                                     <span class="input-group-addon">
                                                         <i class="material-icons">lock_outline</i>
                                                     </span>
-                                                <div class="form-group label-floating">
-                                                    <label class="control-label">Confirm Password</label>
-                                                    <input id="cfpasswordRegister" type="password" class="form-control">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Confirm Password</label>
+                                                        <input id="cfpasswordRegister" type="password" class="form-control">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
+
                                     <div class="wizard-footer">
                                         <div class="pull-right">
                                             <input type='button' class='btn btn-login btn-fill btn-danger btn-wd'
@@ -119,6 +119,7 @@
                                         </div>
                                         <div class="clearfix"></div>
                                     </div>
+                                </div>
                             </form>
                         </div>
                     </div> <!-- wizard container -->
