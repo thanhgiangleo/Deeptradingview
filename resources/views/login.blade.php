@@ -1,5 +1,9 @@
 @extends('partials.layout')
 
+@section('css')
+    <link rel="stylesheet" href="/css/login.css" type="text/css">
+@endsection
+
 @section('content')
     <div class="image-container set-full-height"
          style="background-image: url('http://hdwallpaper2013.com/wp-content/uploads/2013/01/Vintage-Tree-Nature-Background-HD-Wallpaper.jpg')">
@@ -15,7 +19,7 @@
                 <div class="col-sm-8 col-sm-offset-2">
                     <div class="wizard-container">
                         <div class="card wizard-card" data-color="red" id="wizard">
-                            <form >
+                            <form>
                                 {!! csrf_field() !!}
                                 <div class="wizard-header">
                                     <h3 class="wizard-title">
@@ -37,7 +41,8 @@
                                                 <h4 class="info-text"> Let's start with the basic details.</h4>
                                             </div>
                                             <div class="col-sm-offset-3 col-sm-6">
-                                                <a href="/social/facebook" class="btn btn-block btn-social btn-twitter" style="background-color: #478">
+                                                <a href="/social/facebook" class="btn btn-block btn-social btn-twitter"
+                                                   style="background-color: #478">
                                                     <span class="fa fa-facebook"></span> Login with Facebook
                                                 </a>
                                             </div>
@@ -93,7 +98,8 @@
                                                     </span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Your Password</label>
-                                                        <input id="passwordRegister" type="password" class="form-control">
+                                                        <input id="passwordRegister" type="password"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
 
@@ -103,7 +109,8 @@
                                                     </span>
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Confirm Password</label>
-                                                        <input id="cfpasswordRegister" type="password" class="form-control">
+                                                        <input id="cfpasswordRegister" type="password"
+                                                               class="form-control">
                                                     </div>
                                                 </div>
                                             </div>
@@ -134,4 +141,10 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('js')
+    <script src="/js/styles.js"></script>
+    <script src="/js/loginBase.js"></script>
+    <script src="/js/login.js"></script>
 @endsection
