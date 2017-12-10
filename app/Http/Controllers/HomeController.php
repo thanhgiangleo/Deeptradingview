@@ -143,9 +143,28 @@ class HomeController extends Controller
         );
     }
 
-    function getUserByEmail($email)
+    public function getUserByEmail($email)
     {
         return DB::table($this->Users)
             ->where('email', '=', $email)->first();
+    }
+
+    public function getUserType($email)
+    {
+        return DB::table($this->Users)->select('type')
+        ->where('email', '=', $email)->first();
+    }
+
+    public function updateUser($array)
+    {
+        DB::table('users')->insert([
+            'email' => 'john@example.com',
+            'password' => '',
+            'payment_code' => '',
+            'reffered_code' => '',
+            'expired_at' => '',
+            'login_ip' => '',
+            'status' => ''
+        ]);
     }
 }

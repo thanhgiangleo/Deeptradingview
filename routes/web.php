@@ -24,4 +24,10 @@ Route::get('/payment', 'HomeController@payment');
 Route::get('/social/facebook', 'HomeController@facebook');
 
 // Admin routes
-Route::get('/admin', 'AdminController@index');
+Route::get('/dashboard', 'AdminController@dashboard');
+Route::get('/user', 'AdminController@user');
+Route::get('/user-list', 'AdminController@userList');
+Route::get('/typography', 'AdminController@typography');
+Route::get('/icons', 'AdminController@icons');
+Route::get('/maps', 'AdminController@maps');
+Route::get('/notifications', 'AdminController@notifications');
