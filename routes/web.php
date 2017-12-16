@@ -12,8 +12,9 @@
 */
 
 // Homepage routes
-Route::get('/', 'HomeController@index');
-
+//Route::get('/', 'HomeController@index');
+Route::get('/', 'CoinController@index');
+Route::get('/coinview/{coinname?}', 'CoinController@coinview');
 // Login / Register
 Route::get('/login', 'HomeController@login');
 Route::get('/isExistEmail/{email}', 'HomeController@isExistEmail');
