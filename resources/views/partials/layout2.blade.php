@@ -32,18 +32,18 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
     {{--<script--}}
-            {{--src="http://maps.googleapis.com/maps/api/js?key=YOUR_APIKEY&sensor=false">--}}
+    {{--src="http://maps.googleapis.com/maps/api/js?key=YOUR_APIKEY&sensor=false">--}}
     {{--</script>--}}
 
     @yield('css')
 </head>
 <body>
 <div class="wrapper">
-    @include('admin.nav.left')
+    @include('nav.left')
     <div class="main-panel">
-        @include('admin.nav.top')
+        @include('nav.top')
         @yield('content')
-        @include('admin.nav.bottom')
+        @include('nav.bottom')
     </div>
 </div>
 </body>

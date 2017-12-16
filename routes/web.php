@@ -21,13 +21,17 @@ Route::get('/isExistEmail/{email}', 'HomeController@isExistEmail');
 Route::post('/loginAction/{email}/{password}', 'HomeController@loginAction');
 Route::post('/registerAction/{email}/{password}', 'HomeController@registerAction');
 Route::get('/payment', 'HomeController@payment');
+Route::get('/home', 'HomeController@home');
 // Facebook auth
 Route::get('/social/facebook', 'HomeController@facebook');
 
+//CRUD
 // Admin routes
 Route::get('/dashboard', 'AdminController@dashboard');
-Route::get('/user', 'AdminController@user');
+Route::get('/user-upgrade', 'AdminController@userUpgrade');
 Route::get('/user-list', 'AdminController@userList');
+Route::get('/user-profile/{id}', 'AdminController@userProfile');
+Route::post('/user-profile/{id}', 'AdminController@userProfile');
 Route::get('/typography', 'AdminController@typography');
 Route::get('/icons', 'AdminController@icons');
 Route::get('/maps', 'AdminController@maps');

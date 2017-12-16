@@ -16,6 +16,8 @@ class AdminController extends Controller
     {
         $this->socialite = $socialite;
         parent::__construct();
+        if(!$this->isAdminLogin())
+            redirect("/login");
     }
 
     public function dashboard()
@@ -23,9 +25,17 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
-    public function user()
+    public function userUpgrade()
     {
-        return view('admin.user');
+        $users = $this->getAllUsersUpgrade();
+//        var_dump($users); die();
+        return view('admin.user-upgrade', [ 'users' => $users ]);
+    }
+
+    public function userProfile($id)
+    {
+        $user = $this->getUser($id);
+        return view('admin.user-profile', [ 'user' => $user ]);
     }
 
     public function userList(Request $request)
@@ -38,7 +48,7 @@ class AdminController extends Controller
 
         $users = $this->getUsersPaging($page * $paginate + pow($paginate, (int)$indexPaging - 1) - 1, $paginate);
 
-        return view('admin.userList', [
+        return view('admin.user-list', [
             'users' => $users,
             'indexPaging' => $indexPaging,
             'totalPage' => $totalPage
@@ -70,6 +80,11 @@ class AdminController extends Controller
         return DB::table($this->Users)->get();
     }
 
+    public function getAllUsersUpgrade()
+    {
+        return DB::table($this->User_Upgrade)->get();
+    }
+
     public function getUsersPaging($start, $paging)
     {
         return DB::table($this->Users)->skip($start)->take($paging)->get();
@@ -78,5 +93,11 @@ class AdminController extends Controller
     public function getTotalPage($paging)
     {
         return (int)(DB::table($this->Users)->count() / $paging + 1);
+    }
+
+    public function getUser($id)
+    {
+        return DB::table($this->Users)
+            ->where('id', '=', $id)->first();
     }
 }

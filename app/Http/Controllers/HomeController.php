@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Carbon\Carbon;
+
 class HomeController extends Controller
 {
 //    private $db;
@@ -23,8 +24,10 @@ class HomeController extends Controller
 
         $user = $this->insertUser("giang dieng", "sdsad");
 
-        var_dump("Dw"); die();
-        var_dump($user); die();
+        var_dump("Dw");
+        die();
+        var_dump($user);
+        die();
 //        if (!$this->db) {
 //            echo "ERROR : CANNOT OPEN DB\n";
 //        }
@@ -41,6 +44,11 @@ class HomeController extends Controller
 //            }
 //        }
 //        return view('login');
+    }
+
+    public function home()
+    {
+        return view('index');
     }
 
     public function redirectToProvider()
@@ -64,13 +72,10 @@ class HomeController extends Controller
         $email = $user->email;
         $password = $user->token;
 
-        if($this->isExistEmail($email))
-        {
+        if ($this->isExistEmail($email)) {
             $user = $this->getUserByEmail($email);
             echo "dang nhap thanh cong";
-        }
-        else
-        {
+        } else {
             $this->insertUser($email, $password);
             echo "dang ki thanh cong";
         }
@@ -85,8 +90,14 @@ class HomeController extends Controller
     {
         $user = DB::table($this->Users)
             ->where([
-            ['email', '=', $email],
-            ['password', '=', md5($password)],])->first();
+                ['email', '=', $email],
+                ['password', '=', md5($password)],])->first();
+
+        if(isset($user))
+        {
+            $type = $this->getUserType($email);
+            $this->setSession($type);
+        }
 
         return isset($user) ? 1 : 0;
     }
@@ -95,6 +106,12 @@ class HomeController extends Controller
     {
         $this->insertUser($email, md5($password));
         return $this->loginAction($email, $password);
+    }
+
+    public function updateProfileAction(Request $request)
+    {
+        var_dump($request->input('cmm'));
+        die();
     }
 
     public function payment()
@@ -108,19 +125,20 @@ class HomeController extends Controller
         return isset($user) ? 1 : 0;
     }
 
-    function get_client_ip() {
+    function get_client_ip()
+    {
         $ipaddress = '';
         if (isset($_SERVER['HTTP_CLIENT_IP']))
             $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+        else if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
             $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+        else if (isset($_SERVER['HTTP_X_FORWARDED']))
             $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+        else if (isset($_SERVER['HTTP_FORWARDED_FOR']))
             $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-        else if(isset($_SERVER['HTTP_FORWARDED']))
+        else if (isset($_SERVER['HTTP_FORWARDED']))
             $ipaddress = $_SERVER['HTTP_FORWARDED'];
-        else if(isset($_SERVER['REMOTE_ADDR']))
+        else if (isset($_SERVER['REMOTE_ADDR']))
             $ipaddress = $_SERVER['REMOTE_ADDR'];
         else
             $ipaddress = 'UNKNOWN';
@@ -132,11 +150,22 @@ class HomeController extends Controller
         $login_ip = $this->get_client_ip();
         $created_at = Carbon::now();
         $expired_at = Carbon::now()->addDays(7);
+
+        do {
+            $payment_code = $this->generateRandomString();
+        } while ($this->isExistPaymentCode($payment_code));
+
+        do {
+            $reffered_code = $this->generateRandomString();
+        } while ($this->isExistRefferedCode($reffered_code));
+
         DB::table($this->Users)->insert(
             [
                 'email' => $email,
                 'password' => $password,
                 'login_ip' => $login_ip,
+                'payment_code' => $payment_code,
+                'reffered_code' => $reffered_code,
                 'created_at' => $created_at,
                 'expired_at' => $expired_at
             ]
@@ -149,10 +178,22 @@ class HomeController extends Controller
             ->where('email', '=', $email)->first();
     }
 
+    public function getUserByPaymentCode($code)
+    {
+        return DB::table($this->Users)
+            ->where('payment_code', '=', $code)->first();
+    }
+
+    public function getUserByPefferedCode($code)
+    {
+        return DB::table($this->Users)
+            ->where('reffered_code', '=', $code)->first();
+    }
+
     public function getUserType($email)
     {
         return DB::table($this->Users)->select('type')
-        ->where('email', '=', $email)->first();
+            ->where('email', '=', $email)->first();
     }
 
     public function updateUser($array)
@@ -166,5 +207,28 @@ class HomeController extends Controller
             'login_ip' => '',
             'status' => ''
         ]);
+    }
+
+    public function isExistPaymentCode($code)
+    {
+        $user = $this->getUserByPaymentCode($code);
+        return isset($user) ? 1 : 0;
+    }
+
+    public function isExistRefferedCode($code)
+    {
+        $user = $this->getUserByPefferedCode($code);
+        return isset($user) ? 1 : 0;
+    }
+
+    public function generateRandomString($length = 10)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[rand(0, $charactersLength - 1)];
+        }
+        return $randomString;
     }
 }

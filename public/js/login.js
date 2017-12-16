@@ -45,7 +45,7 @@ var loginJS = {
                     url: '/loginAction/' + _email + '/' + _password,
                     success: function (isLogin) {
                         if(isLogin === "1")
-                            alert("dang nhap thanh cong");
+                            window.location.href = "/";
                         else
                             alert("dang nhap that bai");
                     }

@@ -349,8 +349,6 @@ function On_Load()
         return;
     }
 
-    myAccordion('listcoin');
-
     //Load Price Chart
     DrawPriceChart(coinname);
 
@@ -359,3 +357,8 @@ function On_Load()
 
     drawPriceComparedChart(coinname);
 }
+
+
+$(document).ready(function () {
+    On_Load();
+});

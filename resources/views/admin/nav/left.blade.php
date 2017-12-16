@@ -1,4 +1,4 @@
-<div class="sidebar" data-color="purple" data-image="assetsadmin/img/sidebar-5.jpg">
+<div class="sidebar" data-color="purple" data-image="/assetsadmin/img/sidebar-5.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="http://www.creative-tim.com" class="simple-text">
@@ -14,9 +14,9 @@
                 </a>
             </li>
             <li>
-                <a href="/user">
+                <a href="/user-upgrade">
                     <i class="pe-7s-user"></i>
-                    <p>User Profile</p>
+                    <p>User Upgrade</p>
                 </a>
             </li>
             <li class="">
@@ -26,7 +26,7 @@
                 </a>
             </li>
             <li>
-                <a href="./typography">
+                <a href="/typography">
                     <i class="pe-7s-news-paper"></i>
                     <p>Typography</p>
                 </a>

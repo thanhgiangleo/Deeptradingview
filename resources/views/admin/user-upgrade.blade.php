@@ -9,35 +9,32 @@
                             <h4 class="title">Striped Table with Hover</h4>
                             <p class="category">Here is a subtitle for this table</p>
                         </div>
-                        <ul class="pagination" style="float: right; padding-right: 30px">
-                            @if ($indexPaging > 1)
-                            <li><a href="?indexPaging={{$indexPaging - 1}}&page=1"><<</a></li>
-                            @endif
-
-                            @for ($i = $indexPaging; $i <= $indexPaging * 10 && $i <= $totalPage; $i++)
-                                <li><a href="?indexPaging={{$indexPaging}}&page={{ $i }}">{{ $i }}</a></li>
-                            @endfor
-
-                            @if ($indexPaging < $totalPage / 10)
-                            <li><a href="?indexPaging={{$indexPaging + 1}}&page=1">>></a></li>
-                            @endif
-                        </ul>
                         <div class="content table-responsive table-full-width">
                             <table class="table table-hover table-striped">
                                 <thead>
-                                <th>ID</th>
                                 <th>Email</th>
-                                <th>Type</th>
                                 <th>Payment Code</th>
+                                <th>Current Type</th>
+                                <th>Upgrade Type</th>
+                                <th>Payment Type</th>
+                                <th>Payment Currency</th>
+                                <th>Proof</th>
                                 <th>Option</th>
                                 </thead>
                                 <tbody>
                                 @foreach ($users as $user)
                                     <tr>
-                                        <td> {{ $user->id }}</td>
                                         <td> {{ $user->email }}</td>
-                                        <td> {{ $user->type }}</td>
                                         <td> {{ $user->payment_code }}</td>
+                                        <td> {{ $user->cur_type }}</td>
+                                        <td> {{ $user->des_type }}</td>
+                                        <td> {{ $user->payment_type }}</td>
+                                        <td> {{ $user->payment_currency }}</td>
+                                        <td> {{ $user->proof }}</td>
+                                        <td>
+                                            <a href="/user-profile/{{ $user->id }}" style="margin-left: -10px; padding-right: 10px">Upgrade</a>
+                                            <a href="/cmm" style="color: red;">Deny</a>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
