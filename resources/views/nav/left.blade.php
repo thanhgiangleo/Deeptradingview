@@ -14,19 +14,19 @@
                 </a>
             </li>
             <li>
-                <a href="#btc" onclick="selectBtn('btc');ChangeCoin_Load('btc');">
+                <a href="/home#btc" onclick="selectBtn('btc');ChangeCoin_Load('btc');">
                     <i class="pe-7s-graph"></i>
                     <p>BTC</p>
                 </a>
             </li>
             <li>
-                <a href="#eth" onclick="selectBtn('eth');ChangeCoin_Load('eth');">
+                <a href="/home#eth" onclick="selectBtn('eth');ChangeCoin_Load('eth');">
                     <i class="pe-7s-graph"></i>
                     <p>ETH</p>
                 </a>
             </li>
             <li>
-                <a href="#ltc" onclick="selectBtn('ltc');ChangeCoin_Load('ltc');">
+                <a href="/home#ltc" onclick="selectBtn('ltc');ChangeCoin_Load('ltc');">
                     <i class="pe-7s-graph"></i>
                     <p>LTC</p>
                 </a>
