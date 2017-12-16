@@ -22,6 +22,7 @@ Route::post('/loginAction/{email}/{password}', 'HomeController@loginAction');
 Route::post('/registerAction/{email}/{password}', 'HomeController@registerAction');
 Route::get('/payment', 'HomeController@payment');
 Route::get('/home', 'HomeController@home');
+Route::get('/user-profile', 'HomeController@userProfile');
 // Facebook auth
 Route::get('/social/facebook', 'HomeController@facebook');
 

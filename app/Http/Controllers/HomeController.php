@@ -95,8 +95,9 @@ class HomeController extends Controller
 
         if(isset($user))
         {
-            $type = $this->getUserType($email);
-            $this->setSession($type);
+            $user_Info['user_type'] = $this->getUserType($email);
+            $user_Info['email'] = $email;
+            $this->setSession($user_Info);
         }
 
         return isset($user) ? 1 : 0;
@@ -123,6 +124,18 @@ class HomeController extends Controller
     {
         $user = $this->getUserByEmail($email);
         return isset($user) ? 1 : 0;
+    }
+
+    public function userProfile()
+    {
+        $email = $this->getEmail();
+        if(isset($email))
+        {
+            $user = $this->getUserByEmail($email);
+            return view('user-profile', [ 'user' => $user ]);
+        }
+
+        return redirect('/login');
     }
 
     function get_client_ip()

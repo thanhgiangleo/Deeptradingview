@@ -8,7 +8,7 @@
 
         <ul class="nav">
             <li>
-                <a href="/user-upgrade">
+                <a href="/user-profile">
                     <i class="pe-7s-user"></i>
                     <p>User Information</p>
                 </a>

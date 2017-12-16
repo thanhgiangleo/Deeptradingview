@@ -22,14 +22,23 @@ class Controller extends BaseController
         $this->User_Upgrade = "users.user_upgrade";
     }
 
-    public function setSession($user_type)
+    public function setSession($user_Info)
     {
-        $_SESSION['deeptradingview_userType'] = $user_type;
+        $_SESSION['deeptradingview_userType'] = $user_Info['user_type'];
+        $_SESSION['deeptradingview_email'] = $user_Info['email'];
     }
 
     public function isAdminLogin()
     {
         return $_SESSION['deeptradingview_userType'] === 4 ? true : false;
+    }
+
+    public function getEmail()
+    {
+        if(isset($_SESSION['deeptradingview_email']))
+            return $_SESSION['deeptradingview_email'];
+
+        return null;
     }
 }
 
