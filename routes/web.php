@@ -16,13 +16,14 @@
 Route::get('/', 'CoinController@index');
 Route::get('/coinview/{coinname?}', 'CoinController@coinview');
 // Login / Register
-Route::get('/login', 'HomeController@login');
-Route::get('/isExistEmail/{email}', 'HomeController@isExistEmail');
-Route::post('/loginAction/{email}/{password}', 'HomeController@loginAction');
-Route::post('/registerAction/{email}/{password}', 'HomeController@registerAction');
+Route::get('/login', 'LoginController@login');
+Route::get('/isExistEmail/{email}', 'LoginController@isExistEmail');
+Route::post('/loginAction/{email}/{password}', 'LoginController@loginAction');
+Route::post('/registerAction/{email}/{password}', 'LoginController@registerAction');
 Route::get('/payment', 'HomeController@payment');
 Route::get('/home', 'HomeController@home');
 Route::get('/user-profile', 'HomeController@userProfile');
+Route::get('/upgrade', 'HomeController@upgrade');
 // Facebook auth
 Route::get('/social/facebook', 'HomeController@facebook');
 
