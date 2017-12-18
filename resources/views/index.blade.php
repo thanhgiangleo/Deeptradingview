@@ -10,7 +10,6 @@
             <div class="w3-main">
                 <div class="w3-container">
                     <h5><b><i class="fa fa-dashboard"></i> Coin Detail </b></h5>
-
                     <div class="w3-col-padding">
 
                         <div class="w3-twothird"> <!-- includes priceChart, volChart -->
@@ -71,9 +70,14 @@
                                     <!-- Load priceComparedChart -->
 
                                     <div class="w3-row-padding">
-                                        <div class="w3-twothird" style="width:100%; height: 250px; display:block; margin: 0 auto">
+                                        <div id="pieComparedChart-container" class="w3-twothird" style="width:100%; height: 250px; display:block; margin: 0 auto">
                                             <!-- Load pieComparedChart -->
                                             <p>pieComparedChart</p>
+                                        </div>
+                                        <div style="font-size: 12px; width: 100%; background-color: #ffffff; margin-bottom: 20px; text-align: right; padding-right: 30px">
+                                            <div id="usd-per" style="color: #7791c4">USD: 20%</div>
+                                            <div id="btc-per" style="color: #46712d">BTC: 30%</div>
+                                            <div id="eth-per" style="color: #870011">ETH: 40%</div>
                                         </div>
                                     </div>
 
@@ -100,4 +104,7 @@
     <script language="javascript" src="https://code.highcharts.com/modules/exporting.js"></script>
     <script language="javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script language="javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+    <script language="javascript" src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script language="javascript" src="https://code.highcharts.com/modules/solid-gauge.src.js"></script>
 @endsection

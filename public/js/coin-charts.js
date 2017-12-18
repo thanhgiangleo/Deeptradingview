@@ -4,7 +4,7 @@ var ytitle = "";
 
 var url = "https://deeptradingview.com/api/trade/coin/";
 var url_comparedChart = "https://deeptradingview.com/api/ticker/";
-
+var url_PieChart = "https://deeptradingview.com/api/trade/coin/btc/60/24";
 //document.write(result);
 var coinname = "";
 
@@ -339,6 +339,120 @@ function drawPriceComparedChart(_coinname) {
   }, 60000);
 }
 
+function DrawPieComparedChart() {
+    var gaugeOptions = {
+        chart: {
+            type: 'solidgauge'
+        },
+
+        title: null,
+
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor: '#46712d',
+                innerRadius: '70%',
+                outerRadius: '100%',
+                shape: 'arc'
+            }
+        },
+
+        tooltip: {
+            enabled: false
+        },
+
+        // the value axis
+        yAxis: {
+            lineWidth: 0,
+            minorTickInterval: null,
+            tickAmount: 2,
+            title: {
+                y: -70
+            },
+            labels: {
+                y: 16
+            }
+        },
+
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+    };
+    //
+
+    var obj = JSON.parse(httpGet(url_PieChart));
+
+    var per_eth = obj.data[0].eth_percentage;
+    var per_btc = obj.data[0].btc_percentage;
+    var per_usd = obj.data[0].usd_percentage;
+
+    // The speed gauge
+    chart = Highcharts.chart('pieComparedChart-container',
+        Highcharts.merge(gaugeOptions, {
+            yAxis: {
+                min: 0,
+                max: 100,
+                visible: false
+            },
+
+            credits: {
+                enabled: false
+            },
+
+            series: [{
+                innerRadius:'100%', // ETH %
+                radius: '70%',
+                name: 'Speed',
+                data: [100],
+                colors: ['#870011']
+            }, {
+                innerRadius:'100%', // BTC %
+                radius: '70%',
+                name: 'Speed',
+                data: [100 - per_eth],
+                colors: ['#46712d']
+            }, {
+                innerRadius:'100%', //USD %
+                radius: '70%',
+                name: 'Speed',
+                data: [per_usd],
+                colors: ['#7791c4']
+            }]
+        }));
+
+    $('#usd-per').html('USD: ' + per_usd + '%');
+    $('#btc-per').html('BTC: ' + per_btc + '%');
+    $('#eth-per').html('ETH: ' + per_eth + '%');
+    // Bring life to the dials
+    setInterval(function () {
+        var p_btc = chart.series[1].points[0];
+        var p_usb = chart.series[2].points[0];
+
+        var obj = JSON.parse(httpGet(url_PieChart));
+
+        var per_eth = obj.data[0].eth_percentage;
+        var per_btc = obj.data[0].btc_percentage;
+        var per_usd = obj.data[0].usd_percentage;
+
+        $('#usd-per').html('USD: ' + per_usd + '%');
+        $('#btc-per').html('BTC: ' + per_btc + '%');
+        $('#eth-per').html('ETH: ' + per_eth + '%');
+
+        p_btc.update(100 - per_eth);
+        p_usb.update(per_usd);
+
+    }, 2000);
+}
+
 // onload function
 function On_Load()
 {
@@ -356,6 +470,8 @@ function On_Load()
     DrawVolChart(coinname);
 
     drawPriceComparedChart(coinname);
+
+    DrawPieComparedChart();
 }
 
 
