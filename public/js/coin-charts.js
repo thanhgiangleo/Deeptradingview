@@ -1,12 +1,12 @@
 //trade: Coin: Volumn Buy Sell  (USD)
 var chartTitle = 'Volumn Buy & Sell';
 var ytitle = "";
+var coinname = "";
 
 var url = "https://deeptradingview.com/api/trade/coin/";
 var url_comparedChart = "https://deeptradingview.com/api/ticker/";
-var url_PieChart = "https://deeptradingview.com/api/trade/coin/btc/60/24";
-//document.write(result);
-var coinname = "";
+var url_PieChart = "https://deeptradingview.com/api/trade/coin/";
+var url_combinedChart = "https://api.bitfinex.com/v2/ticker/t";
 
 // Arrray list of url
 var list_sell_amount =[];
@@ -16,6 +16,7 @@ var list_end_time =[];
 var list_sell_prive_avg =[];
 var list_buy_prive_avg =[];
 
+// Array list of url_comparedChart
 var list_sell_ticker =[];
 var list_buy_ticker =[];
 var list_start_time_ticker =[];
@@ -26,6 +27,16 @@ var delta = 0;
 var list_delta = [];
 var length;
 
+var buy = 0;
+var sell = 0;
+var buy_last_24h = 0;
+var sell_last_24h = 0;
+var total_vol = 0;
+var total_vol_last_24h = 0;
+var delta_vol = 0;
+var total_arr = [];
+
+// Init data
 function constructList() {
   list_sell_amount = [];
   list_buy_amount = [];
@@ -42,10 +53,16 @@ function constructListCompared() {
   list_end_time_ticker =[];
 }
 
+// Handle data & format corrency
 function getDelta(a, b) {
   return ((a+b)/2);
 }
 
+function format_currency(n, currency) {
+    return currency + " " + n.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,");
+}
+
+// Parse JSON from API
 function detach_attribute(json) {
     var obj = JSON.parse(json);
 
@@ -69,9 +86,26 @@ function detach_compared(json) {
     average_price = getDelta(obj.data[0].sell_price, obj.data[0].buy_price);
     average_price_last_24h = getDelta(obj.data[length-1].sell_price, obj.data[length-1].buy_price);
     delta = average_price - average_price_last_24h;
-    //list_delta.push(delta);
+    list_delta.push(delta);
 
-    console.log(delta);
+    return 0;
+}
+
+function detach_vol(json) {
+    var obj = JSON.parse(json);
+
+    length = obj.data.length;
+
+    buy = obj.data[0].buy_price;
+    sell = obj.data[0].sell_price;
+    buy_last_24h = obj.data[length-1].buy_price;
+    sell_last_24h = obj.data[length-1].sell_price;
+
+    total_vol = buy + sell;
+    total_vol_last_24h = buy_last_24h + sell_last_24h;
+    delta_vol = total_vol - total_vol_last_24h;
+
+    total_arr.push(delta_vol);
 
     return 0;
 }
@@ -147,6 +181,9 @@ function LoadVolChart(coinname, timeview) {
         chart: {
             type: 'column'
         },
+        exporting: {
+            enabled: false
+        },
         title: {
             text: chartTitle + ' ' + coinname.toUpperCase()
         },
@@ -210,7 +247,7 @@ function LoadPriceChart(coinname, timeview) {
         "autosize": true,
         "symbol": "BITFINEX:" + coinname.toUpperCase() + tradewith.toUpperCase(),
         "interval": timeview,
-        "timezone": "Etc/UTC",
+        "timezone": (new Date()).getTime(),
         "theme": "Light",
         "style": "1",
         "locale": "en",
@@ -231,125 +268,100 @@ function LoadPriceComparedChart(coinname) {
   var res = httpGet(url_comparedChart + coinname + '/1/1441');
   detach_compared(res);
 
+  var data = [];
+	var time = (new Date()).getTime();
+	var color = "";
+
   Highcharts.setOptions({
-    global: {
-        useUTC: false
-    }
-});
+      global: {
+          useUTC: false
+      }
+  });
 
-Highcharts.chart('priceComparedChart-container', {
-    chart: {
-        type: 'area',
-        animation: Highcharts.svg, // don't animate in old IE
+  Highcharts.chart('priceComparedChart-container', {
+      chart: {
+            type: 'area',
+            animation: Highcharts.svg, // don't animate in old IE
 
-        events: {
-            load: function () {
+            events: {
+                load: function () {
 
-                // set up the updating of the chart each second
-                //this.series[0].color = "#838393";
-                var series = this.series[0];
-                //series.color = "#343434";
-                setInterval(function () {
-                    var x = (new Date()).getTime(), // current time
-                        y = delta;
-                    series.addPoint([x, y], true, true);
-                    //series.color= '#fff';
-                    //series.addPoint({marker:{fillColor:'#000'}, x, y, color:'#000'}, true, true);
-                }, 1000);
+                    // set up the updating of the chart each second
+                    //this.series[0].color = "#838393";
+                    var series = this.series[0];
+                    //series.color = "#343434";
+                    setInterval(function () {
+                      var tmp = httpGet(url_comparedChart + coinname + '/1/1441');
+                      detach_compared(tmp);
+                      console.log("Changed : " + delta);
+                        var x = (new Date()).getTime(), // current time
+                            y = delta;
+                        series.addPoint([x, y], true, true);
+                    }, 60000);
+                }
             }
-        }
-    },
-    title: {
-        text: 'Live random data'
-    },
-    xAxis: {
-        type: 'datetime',
-        tickPixelInterval: 150
-    },
-    yAxis: {
-        title: {
-            text: 'ggjhg'
         },
-        // plotLines: [{
-        //     value: delta,
-        //     width: 1,
-        //     color: '#808080'
-        // }]
-    },
-    tooltip: {
-        formatter: function () {
-            return '<b>' + this.series.name + '</b><br/>' +
-                Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                Highcharts.numberFormat(this.y, 2);
-        }
-    },
-    legend: {
-        enabled: false
-    },
-    exporting: {
-        enabled: false
-    },
-    series: [{
-    		color: '#000',
-        name: 'Random data',
-        data: (function () {
-            // generate an array of random data
-            var data = [],
-                time = (new Date()).getTime(),
-                i;
-//0 - 1441
-//1 -1442
-//delta(19-1460)
+        title: {
+            text: 'Average price comparision within 24h'
+        },
+        xAxis: {
+            type: 'datetime'
+        },
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        plotOptions: {
+          area: {
+            negativeColor: '#870011'
+          }
+        },
+        series: [{
+          type: 'area',
+          color: '#46712D',
+          marker: {
+            enabled: false
+          },
+          data: (function () {
+              // generate an array of random data
+              var i;
+              // console.log(delta);
+              // console.log(data);
 
-            for (i = 19; i >= 0; i -= 1) {
+              for (i = -100; i <= 0; i++) {
                 data.push({
-                    x: time + i * 1000,
+                    x: time + i * 60000,
                     y: list_delta[i]
                 });
-            }
-            return data;
-        }())
-    }]
-});
+              }
+              return data;
+          }())
+        }]
+  });
 }
 
-// DRAW functions
-function DrawPriceChart(_coinname) {
-    coinname = _coinname;
-    LoadPriceChart(coinname, GetTimeView());
-    console.log(coinname);
-}
+function loadPieChart(coinname) {
+    var obj = JSON.parse(httpGet(url + coinname + '/60/24'));
 
-function DrawVolChart(_coinname) {
-    coinname = _coinname;
-    LoadVolChart(coinname, GetTimeView());
-    setInterval(function() {
-      constructList();
-      LoadVolChart(coinname, GetTimeView())
-    }, 60000);
-    console.log(coinname);
-}
-
-function drawPriceComparedChart(_coinname) {
-  coinname = _coinname;
-  LoadPriceComparedChart(coinname);
-  setInterval(function() {
-      constructListCompared();
-      LoadPriceComparedChart(coinname)
-  }, 60000);
-}
-
-function DrawPieComparedChart() {
     var gaugeOptions = {
         chart: {
             type: 'solidgauge'
         },
-
-        title: null,
-
+        title: {
+            text: "Percentage of USD, BTC, ETH"
+        },
         pane: {
             center: ['50%', '85%'],
-            size: '140%',
+            size: '100%',
             startAngle: -90,
             endAngle: 90,
             background: {
@@ -359,7 +371,9 @@ function DrawPieComparedChart() {
                 shape: 'arc'
             }
         },
-
+        exporting: {
+            enabled: false
+        },
         tooltip: {
             enabled: false
         },
@@ -376,7 +390,6 @@ function DrawPieComparedChart() {
                 y: 16
             }
         },
-
         plotOptions: {
             solidgauge: {
                 dataLabels: {
@@ -387,9 +400,6 @@ function DrawPieComparedChart() {
             }
         }
     };
-    //
-
-    var obj = JSON.parse(httpGet(url_PieChart));
 
     var per_eth = obj.data[0].eth_percentage;
     var per_btc = obj.data[0].btc_percentage;
@@ -403,11 +413,9 @@ function DrawPieComparedChart() {
                 max: 100,
                 visible: false
             },
-
             credits: {
                 enabled: false
             },
-
             series: [{
                 innerRadius:'100%', // ETH %
                 radius: '70%',
@@ -432,12 +440,14 @@ function DrawPieComparedChart() {
     $('#usd-per').html('USD: ' + per_usd + '%');
     $('#btc-per').html('BTC: ' + per_btc + '%');
     $('#eth-per').html('ETH: ' + per_eth + '%');
-    // Bring life to the dials
+
+    //
+
     setInterval(function () {
         var p_btc = chart.series[1].points[0];
         var p_usb = chart.series[2].points[0];
 
-        var obj = JSON.parse(httpGet(url_PieChart));
+        var obj = JSON.parse(httpGet(url + coinname + '/60/24'));
 
         var per_eth = obj.data[0].eth_percentage;
         var per_btc = obj.data[0].btc_percentage;
@@ -450,7 +460,174 @@ function DrawPieComparedChart() {
         p_btc.update(100 - per_eth);
         p_usb.update(per_usd);
 
-    }, 2000);
+    }, 60000);
+}
+
+function loadCombinedChart(coinname) {
+    var obj = JSON.parse(httpGet(url_combinedChart + coinname.toUpperCase() + 'USD'));
+
+    var daily_change = obj[4];
+    var daily_change_perc = obj[5];
+    var last_price = obj[6];
+    var volumn = obj[7];
+    var high = obj[8];
+    var low = obj[9];
+
+    $('#pair').html(coinname.toUpperCase() + '/USD');
+    $('#daily_change').html('Daily change: ' + daily_change);
+    $('#vol').html('Volumn : ' + format_currency(volumn, "$ "));
+    $('#low').html('LOW: ' + format_currency(low, "$ "));
+    $('#high').html('HIGH: ' + format_currency(high, "$ "));
+    $('#last_price').html('Last price : ' + format_currency(last_price, "$ "));
+    $('#rate').html('Daily change rate : ' + daily_change_perc + '%');
+
+    // Bring life to the dials
+    // setInterval(function () {
+    //
+    //     var tmp = JSON.parse(httpGet(url_combinedChart + coinname.toUpperCase() + 'USD'));
+    //
+    //     var daily_change_next = tmp[4];
+    //     var daily_change_perc_next = tmp[5];
+    //     var last_price_next = tmp[6];
+    //     var volumn_next = tmp[7];
+    //     var high_next = tmp[8];
+    //     var low_next = tmp[9];
+    //
+    //     $('#pair').html(coinname.toUpperCase() + '/USD');
+    //     $('#daily_change').html('Daily change: ' + daily_change_next);
+    //     $('#vol').html('Volumn : ' + volumn_next + ' USD');
+    //     $('#low').html('LOW: ' + low_next);
+    //     $('#high').html('HIGH: ' + high_next);
+    //     $('#last_price').html('Last price : ' + last_price_next);
+    //     $('#rate').html('Daily change rate : ' + daily_change_perc_next + '%');
+    //
+    //     daily_change.update(daily_change_next);
+    //     daily_change_perc.update(daily_change_perc_next);
+    //     last_price.update(last_price_next);
+    //     volumn.update(volumn_next);
+    //     high.update(high_next);
+    //     low.update(low_next);
+    //
+    // }, 1000);
+}
+
+function loadVolComparedChart(coinname) {
+    var data = [];
+    var time = (new Date()).getTime();
+    var res = httpGet(url_comparedChart + coinname + '/1/1441');
+    detach_vol(res);
+
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+
+    Highcharts.chart('volComparedChart-container', {
+        chart: {
+              type: 'area',
+              animation: Highcharts.svg, // don't animate in old IE
+
+              events: {
+                  load: function () {
+
+                      // set up the updating of the chart each second
+                      //this.series[0].color = "#838393";
+                      var series = this.series[0];
+                      //series.color = "#343434";
+                      setInterval(function () {
+                        var tmp = httpGet(url_comparedChart + coinname + '/1/1441');
+                        detach_vol(tmp);
+                        var x = (new Date()).getTime(), // current time
+                            y = delta_vol;
+                        series.addPoint([x, y], true, true);
+                      }, 60000);
+                  }
+              }
+          },
+          title: {
+              text: 'Vol comparision within 24h'
+          },
+          xAxis: {
+              type: 'datetime'
+          },
+          tooltip: {
+              formatter: function () {
+                  return '<b>' + this.series.name + '</b><br/>' +
+                      Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/>' +
+                      Highcharts.numberFormat(this.y, 2);
+              }
+          },
+          legend: {
+              enabled: false
+          },
+          exporting: {
+              enabled: false
+          },
+          plotOptions: {
+            area: {
+              negativeColor: '#870011'
+            }
+          },
+          series: [{
+            type: 'area',
+            color: '#46712D',
+            marker: {
+              enabled: false
+            },
+            data: (function () {
+                // generate an array of random data
+                var i;
+                // console.log(delta);
+                // console.log(data);
+
+                for (i = -100; i <= 0; i++) {
+                  data.push({
+                      x: time + i * 60000,
+                      y: total_arr[i]
+                  });
+                }
+                return data;
+            }())
+          }]
+        });
+}
+
+// DRAW functions
+function DrawPriceChart(_coinname) {
+    coinname = _coinname;
+    LoadPriceChart(coinname, GetTimeView());
+    console.log(coinname);
+}
+
+function DrawVolChart(_coinname) {
+    coinname = _coinname;
+    LoadVolChart(coinname, GetTimeView());
+    setInterval(function() {
+      constructList();
+      LoadVolChart(coinname, GetTimeView())
+    }, 60000);
+    console.log(coinname);
+}
+
+function drawPriceComparedChart(_coinname) {
+  coinname = _coinname;
+  LoadPriceComparedChart(coinname);
+}
+
+function DrawPieComparedChart(_coinname) {
+    coinname = _coinname;
+    loadPieChart(coinname);
+}
+
+function drawCombinedChart(_coinname) {
+    coinname = _coinname;
+    loadCombinedChart(coinname);
+}
+
+function drawVolComparedChart(_coinname) {
+    coinname = _coinname;
+    loadVolComparedChart(coinname);
 }
 
 // onload function
@@ -463,17 +640,14 @@ function On_Load()
         return;
     }
 
-    //Load Price Chart
+    // DRAW
     DrawPriceChart(coinname);
-
-    //Load Vol Buy Sell
     DrawVolChart(coinname);
-
     drawPriceComparedChart(coinname);
-
-    DrawPieComparedChart();
+    DrawPieComparedChart(coinname);
+    drawCombinedChart(coinname);
+    drawVolComparedChart(coinname);
 }
-
 
 $(document).ready(function () {
     On_Load();

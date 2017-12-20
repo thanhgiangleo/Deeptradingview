@@ -30,7 +30,6 @@ class HomeController extends Controller
 
     public function index()
     {
-
         $user = $this->insertUser("giang dieng", "sdsad");
 
         var_dump("Dw");

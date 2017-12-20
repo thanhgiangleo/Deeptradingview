@@ -1,8 +1,8 @@
 <div class="sidebar" data-color="purple" data-image="/assetsadmin/img/sidebar-5.jpg">
     <div class="sidebar-wrapper">
-        <div class="logo">
-            <a href="http://www.creative-tim.com" class="simple-text">
-                Creative Tim
+        <div class="logo" style="background-color:#fff">
+            <a href="/home" class="simple-text">
+                <img src="../images/128.png" />
             </a>
         </div>
 
