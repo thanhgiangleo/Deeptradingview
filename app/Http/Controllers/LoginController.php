@@ -12,38 +12,18 @@ use Carbon\Carbon;
 
 class LoginController extends Controller
 {
-//    private $db;
+    private $socialite;
+    private $email;
     public function __construct(Socialite $socialite)
     {
         $this->socialite = $socialite;
         parent::__construct();
-    }
+        $this->email = $this->getEmail();
 
-    public function index()
-    {
-
-        $user = $this->insertUser("giang dieng", "sdsad");
-
-        var_dump("Dw");
-        die();
-        var_dump($user);
-        die();
-//        if (!$this->db) {
-//            echo "ERROR : CANNOT OPEN DB\n";
-//        }
-//        else {
-//            $result = pg_query($this->db, "SELECT * from users.user_type");
-//            if (!$result) {
-//                echo "An error occurred.\n";
-//                exit;
-//            }
-//
-//            while ($row = pg_fetch_row($result)) {
-//                echo "Type: $row[0]  Name: $row[1]";
-//                echo "<br />\n";
-//            }
-//        }
-//        return view('login');
+        if(isset($this->email))
+        {
+            return redirect('/');
+        }
     }
 
     public function redirectToProvider()
@@ -79,6 +59,12 @@ class LoginController extends Controller
     public function login()
     {
         return view('login');
+    }
+
+    public function logout()
+    {
+        $this->unSetSession();
+        return redirect('/login');
     }
 
     public function loginAction($email, $password)

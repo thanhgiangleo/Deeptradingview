@@ -69,7 +69,7 @@
                       </ul>
                   </li>
                   <li>
-                      <a href="#">
+                      <a href="/logoutAction">
                           <p>Log out</p>
                       </a>
                   </li>

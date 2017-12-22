@@ -29,9 +29,15 @@ class Controller extends BaseController
         $_SESSION['deeptradingview_email'] = $user_Info['email'];
     }
 
+    public function unSetSession()
+    {
+        $_SESSION['deeptradingview_userType'] = null;
+        $_SESSION['deeptradingview_email'] = null;
+    }
+
     public function isAdminLogin()
     {
-        return $_SESSION['deeptradingview_userType'] === 4 ? true : false;
+        return $_SESSION['deeptradingview_userType']->type === 4 ? true : false;
     }
 
     public function getEmail()
@@ -45,6 +51,12 @@ class Controller extends BaseController
     public function getUserByEmail($email)
     {
         return DB::table($this->Users)
+            ->where('email', '=', $email)->first();
+    }
+
+    public function getUserType($email)
+    {
+        return DB::table($this->Users)->select('type')
             ->where('email', '=', $email)->first();
     }
 }
