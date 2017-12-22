@@ -58,6 +58,11 @@ class LoginController extends Controller
 
     public function login()
     {
+        if(isset($this->email))
+        {
+            return redirect('/');
+        }
+
         return view('login');
     }
 
