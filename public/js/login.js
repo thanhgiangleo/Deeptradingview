@@ -7,9 +7,28 @@ var loginJS = {
             return true;
 
         if (_email === '')
+        {
             $('#emailLogin').parent().addClass('is-focused');
-        if (_password === '')
+            swal({
+                title: "Email invalid",
+                type: "error",
+                showConfirmButton: false,
+                allowOutsideClick: true,
+                timer: 2000
+            });
+            return;
+        }
+        else if (_password === '')
+        {
             $('#passwordLogin').parent().addClass('is-focused');
+            swal({
+                title: "Password invalid",
+                type: "error",
+                showConfirmButton: false,
+                allowOutsideClick: true,
+                timer: 2000
+            });
+        }
         return false;
     },
 
@@ -22,15 +41,49 @@ var loginJS = {
             return true;
 
         if (_email === '')
+        {
             $('#emailRegister').parent().addClass('is-focused');
-        if (_password === '')
+            swal({
+                title: "Email invalid",
+                type: "error",
+                showConfirmButton: false,
+                allowOutsideClick: true,
+                timer: 2000
+            });
+        }
+        else if (_password === '')
+        {
             $('#passwordRegister').parent().addClass('is-focused');
-        if (_repassword === '')
+            swal({
+                title: "Password invalid",
+                type: "error",
+                showConfirmButton: false,
+                allowOutsideClick: true,
+                timer: 2000
+            });
+        }
+        else if (_repassword === '')
+        {
             $('#cfpasswordRegister').parent().addClass('is-focused');
+            swal({
+                title: "Confirm password invalid",
+                type: "error",
+                showConfirmButton: false,
+                allowOutsideClick: true,
+                timer: 2000
+            });
+        }
         if(_repassword !== _password)
         {
             $('#cfpasswordRegister').parent().addClass('is-focused');
             $('#passwordRegister').parent().addClass('is-focused');
+            swal({
+                title: "Confirm password invalid",
+                type: "error",
+                showConfirmButton: false,
+                allowOutsideClick: true,
+                timer: 2000
+            });
         }
         return false;
     },
@@ -45,9 +98,31 @@ var loginJS = {
                     url: '/loginAction/' + _email + '/' + _password,
                     success: function (isLogin) {
                         if(isLogin === "1")
-                            window.location.href = "/";
+                        {
+                            swal({
+                                title: "Login Success",
+                                type: "success",
+                                showCancelButton: false,
+                                showConfirmButton: false,
+                                allowOutsideClick: true,
+                                timer: 2000
+                            });
+
+                            setTimeout(
+                                function() {
+                                    window.location.href = "/";
+                                }, 2500);
+                        }
                         else
-                            alert("dang nhap that bai");
+                        {
+                            swal({
+                                title: "Email or password invalid",
+                                type: "error",
+                                showConfirmButton: false,
+                                allowOutsideClick: true,
+                                timer: 2000
+                            });
+                        }
                     }
 
                 })
@@ -69,12 +144,32 @@ var loginJS = {
                                 method: 'POST',
                                 url: '/registerAction/' + _email + '/' + _password,
                                 success: function (data) {
-                                    window.location.reload();
+                                    swal({
+                                        title: "Register Success",
+                                        type: "success",
+                                        showCancelButton: false,
+                                        showConfirmButton: false,
+                                        allowOutsideClick: true,
+                                        timer: 2000
+                                    });
+
+                                    setTimeout(
+                                        function() {
+                                            window.location.reload();
+                                        }, 2500);
+
                                 }
                             })
                         }
                         else {
                             $('#emailRegister').parent().addClass('is-focused');
+                            swal({
+                                title: "Email invalid",
+                                type: "error",
+                                showConfirmButton: false,
+                                allowOutsideClick: true,
+                                timer: 2000
+                            });
                         }
                     }
                 })

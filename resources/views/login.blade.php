@@ -1,4 +1,4 @@
-@extends('partials.layout')
+@extends('partials.layout-login')
 
 @section('css')
     <link rel="stylesheet" href="/css/login.css" type="text/css">
