@@ -95,19 +95,33 @@ function detach_vol(json) {
     var obj = JSON.parse(json);
 
     length = obj.data.length;
-
-    buy = obj.data[0].buy_price;
-    sell = obj.data[0].sell_price;
-    buy_last_24h = obj.data[length-1].buy_price;
-    sell_last_24h = obj.data[length-1].sell_price;
-
-    total_vol = buy + sell;
-    total_vol_last_24h = buy_last_24h + sell_last_24h;
-    delta_vol = total_vol - total_vol_last_24h;
-
-    total_arr.push(delta_vol);
+    total_arr.push(calDetal(obj, 0, length - 1));
 
     return 0;
+}
+
+function calDetal(obj, start, end)
+{
+    total_vol = obj.data[start].buy_price + obj.data[start].sell_price;
+    total_vol_last_24h = obj.data[end].buy_price + obj.data[end].sell_price;
+    delta_vol = total_vol - total_vol_last_24h;
+
+    return delta_vol;
+}
+
+function getInitVolChart()
+{
+    var json = httpGet(url_comparedChart + coinname + '/1/1461');
+    var obj = JSON.parse(json);
+
+    var arrInit = [];
+    for(i = 19; i > 0; i--)
+    {
+        var delta = calDetal(obj, i, i + 1440);
+        arrInit.push(delta);
+    }
+
+    return arrInit;
 }
 
 function httpGet(theUrl) {
@@ -516,6 +530,7 @@ function loadVolComparedChart(coinname) {
     var time = (new Date()).getTime();
     var res = httpGet(url_comparedChart + coinname + '/1/1441');
     detach_vol(res);
+    var arrInit = getInitVolChart();
 
     Highcharts.setOptions({
         global: {
@@ -581,10 +596,10 @@ function loadVolComparedChart(coinname) {
                 // console.log(delta);
                 // console.log(data);
 
-                for (i = -100; i <= 0; i++) {
+                for (i = 19, c = 0; i > 0; i-- , c++) {
                   data.push({
-                      x: time + i * 60000,
-                      y: total_arr[i]
+                      x: time + c * (-60000),
+                      y: arrInit[i]
                   });
                 }
                 return data;
