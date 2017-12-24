@@ -91,13 +91,12 @@ function detach_compared(json) {
     return 0;
 }
 
-function detach_vol(json) {
+function getDelta() {
+    var json = httpGet(url_comparedChart + coinname + '/1/1441');
     var obj = JSON.parse(json);
-
     length = obj.data.length;
-    total_arr.push(calDetal(obj, 0, length - 1));
 
-    return 0;
+    return calDetal(obj, 0, length - 1);
 }
 
 function calDetal(obj, start, end)
@@ -115,7 +114,7 @@ function getInitVolChart()
     var obj = JSON.parse(json);
 
     var arrInit = [];
-    for(i = 19; i > 0; i--)
+    for(i = 19; i >= 0; i--)
     {
         var delta = calDetal(obj, i, i + 1440);
         arrInit.push(delta);
@@ -351,7 +350,7 @@ function LoadPriceComparedChart(coinname) {
               // console.log(delta);
               // console.log(data);
 
-              for (i = -100; i <= 0; i++) {
+              for (i = -19; i <= 0; i++) {
                 data.push({
                     x: time + i * 60000,
                     y: list_delta[i]
@@ -526,10 +525,6 @@ function loadCombinedChart(coinname) {
 }
 
 function loadVolComparedChart(coinname) {
-    var data = [];
-    var time = (new Date()).getTime();
-    var res = httpGet(url_comparedChart + coinname + '/1/1441');
-    detach_vol(res);
     var arrInit = getInitVolChart();
 
     Highcharts.setOptions({
@@ -540,72 +535,74 @@ function loadVolComparedChart(coinname) {
 
     Highcharts.chart('volComparedChart-container', {
         chart: {
-              type: 'area',
-              animation: Highcharts.svg, // don't animate in old IE
-
-              events: {
-                  load: function () {
-
-                      // set up the updating of the chart each second
-                      //this.series[0].color = "#838393";
-                      var series = this.series[0];
-                      //series.color = "#343434";
-                      setInterval(function () {
-                        var tmp = httpGet(url_comparedChart + coinname + '/1/1441');
-                        detach_vol(tmp);
+            type: 'area',
+            animation: Highcharts.svg, // don't animate in old IE
+            events: {
+                load: function () {
+                    // set up the updating of the chart each second
+                    var series = this.series[0];
+                    setInterval(function () {
                         var x = (new Date()).getTime(), // current time
-                            y = delta_vol;
+                            y = getDelta();
                         series.addPoint([x, y], true, true);
-                      }, 60000);
-                  }
-              }
-          },
-          title: {
-              text: 'Vol comparision within 24h'
-          },
-          xAxis: {
-              type: 'datetime'
-          },
-          tooltip: {
-              formatter: function () {
-                  return '<b>' + this.series.name + '</b><br/>' +
-                      Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/>' +
-                      Highcharts.numberFormat(this.y, 2);
-              }
-          },
-          legend: {
-              enabled: false
-          },
-          exporting: {
-              enabled: false
-          },
-          plotOptions: {
-            area: {
-              negativeColor: '#870011'
+                    }, 60000);
+                }
             }
-          },
-          series: [{
+        },
+
+        title: {
+            text: 'Vol comparision within 24h'
+        },
+
+        xAxis: {
+            type: 'datetime'
+        },
+
+        tooltip: {
+            formatter: function () {
+                return '<b>' + this.series.name + '</b><br/>' +
+                    Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/>' +
+                    Highcharts.numberFormat(this.y, 2);
+            }
+        },
+
+        legend: {
+            enabled: false
+        },
+
+        exporting: {
+            enabled: false
+        },
+
+        plotOptions: {
+            area: {
+                negativeColor: '#870011'
+            }
+        },
+
+        series: [{
             type: 'area',
             color: '#46712D',
             marker: {
-              enabled: false
+                enabled: false
             },
+
             data: (function () {
                 // generate an array of random data
-                var i;
-                // console.log(delta);
-                // console.log(data);
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
 
-                for (i = 19, c = 0; i > 0; i-- , c++) {
-                  data.push({
-                      x: time + c * (-60000),
-                      y: arrInit[i]
-                  });
+                for (i = -19; i <= 0; i++) {
+                    data.push([
+                        time + (i - 1) * 60000,
+                        arrInit[i + 19]
+                    ]);
                 }
                 return data;
             }())
-          }]
-        });
+        }]
+    });
 }
 
 // DRAW functions
