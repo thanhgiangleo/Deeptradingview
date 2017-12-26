@@ -99,6 +99,14 @@ function getDelta() {
     return calDetal(obj, 0, length - 1);
 }
 
+function getDeltaPrice() {
+    var json = httpGet(url_comparedChart + coinname + '/1/1441');
+    var obj = JSON.parse(json);
+    length = obj.data.length;
+
+    return calAverageDetal(obj, 0, length - 1);
+}
+
 function calDetal(obj, start, end)
 {
     total_vol = obj.data[start].buy_price + obj.data[start].sell_price;
@@ -121,6 +129,28 @@ function getInitVolChart()
     }
 
     return arrInit;
+}
+
+function calAverageDetal(obj, start, end) {
+    average_price = (obj.data[start].buy_price + obj.data[start].sell_price) / 2;
+    average_price_last_24h = (obj.data[end].buy_price + obj.data[end].sell_price) / 2;
+    delta = average_price - average_price_last_24h;
+
+    return delta;
+}
+
+function getInitPriceChart() {
+    var json = httpGet(url_comparedChart + coinname + '/1/1461');
+    var obj = JSON.parse(json);
+
+    var arrInitPrice = [];
+    for(i = 19; i >= 0; i--)
+    {
+        var delta = calAverageDetal(obj, i, i + 1440);
+        arrInitPrice.push(delta);
+    }
+
+    return arrInitPrice;
 }
 
 function httpGet(theUrl) {
@@ -183,6 +213,10 @@ function ChangeCoin_Load(_coinname) {
     DrawVolChart(coinname);
 
     drawPriceComparedChart(coinname);
+
+    DrawPieComparedChart(coinname);
+
+    drawVolComparedChart(coinname);
 }
 
 // LOAD functions
@@ -278,12 +312,9 @@ function LoadPriceChart(coinname, timeview) {
 }
 
 function LoadPriceComparedChart(coinname) {
-  var res = httpGet(url_comparedChart + coinname + '/1/1441');
-  detach_compared(res);
-
-  var data = [];
-	var time = (new Date()).getTime();
-	var color = "";
+  // var res = httpGet(url_comparedChart + coinname + '/1/1441');
+  // detach_compared(res);
+  var arrInitPrice = getInitPriceChart();
 
   Highcharts.setOptions({
       global: {
@@ -298,17 +329,11 @@ function LoadPriceComparedChart(coinname) {
 
             events: {
                 load: function () {
-
                     // set up the updating of the chart each second
-                    //this.series[0].color = "#838393";
                     var series = this.series[0];
-                    //series.color = "#343434";
                     setInterval(function () {
-                      var tmp = httpGet(url_comparedChart + coinname + '/1/1441');
-                      detach_compared(tmp);
-                      console.log("Changed : " + delta);
                         var x = (new Date()).getTime(), // current time
-                            y = delta;
+                            y = getDeltaPrice();
                         series.addPoint([x, y], true, true);
                     }, 60000);
                 }
@@ -322,7 +347,7 @@ function LoadPriceComparedChart(coinname) {
         },
         tooltip: {
             formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
+                return '<b>' + coinname.toUpperCase() + ' Price' + '</b><br/>' +
                     Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/>' +
                     Highcharts.numberFormat(this.y, 2);
             }
@@ -346,16 +371,17 @@ function LoadPriceComparedChart(coinname) {
           },
           data: (function () {
               // generate an array of random data
-              var i;
-              // console.log(delta);
-              // console.log(data);
+              var data = [],
+                  time = (new Date()).getTime(),
+                  i;
 
               for (i = -19; i <= 0; i++) {
-                data.push({
-                    x: time + i * 60000,
-                    y: list_delta[i]
-                });
+                  data.push([
+                      time + (i - 1) * 60000,
+                      arrInitPrice[i + 19]
+                  ]);
               }
+
               return data;
           }())
         }]
@@ -560,7 +586,7 @@ function loadVolComparedChart(coinname) {
 
         tooltip: {
             formatter: function () {
-                return '<b>' + this.series.name + '</b><br/>' +
+                return '<b>' + coinname.toUpperCase() + ' Vol' + '</b><br/>' +
                     Highcharts.dateFormat('%Y-%m-%d %H:%M', this.x) + '<br/>' +
                     Highcharts.numberFormat(this.y, 2);
             }
